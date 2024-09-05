@@ -1,4 +1,5 @@
 import { Button } from "../components/Button";
+import { Input } from "../components/Input";
 
 export const SignUp = () => {
   return (
@@ -7,37 +8,21 @@ export const SignUp = () => {
         <label htmlFor="email" className="block mb-2 text-sm font-medium text-darkGrey">
           Tu email
         </label>
-        <input
-          type="email"
-          id="email"
-          className="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary block w-full p-2.5"
-          placeholder="nombre@planea.com"
-          required
-        />
+        <Input type="email" id="email" className="" placeholder="nombre@planea.com" />
       </div>
 
       <div className="mb-5">
         <label htmlFor="password" className="block mb-2 text-sm font-medium text-darkGrey">
           Tu contraseña
         </label>
-        <input
-          type="password"
-          id="password"
-          className="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary block w-full p-2.5"
-          required
-        />
+        <Input type="password" id="password" className="" placeholder="" />
       </div>
 
       <div className="mb-5">
         <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-darkGrey">
           Repite tu contraseña
         </label>
-        <input
-          type="password"
-          id="repeat-password"
-          className="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary block w-full p-2.5"
-          required
-        />
+        <Input type="password" id="repeat-password" className="" placeholder="" />
       </div>
 
       <div className="flex items-start mb-5">
