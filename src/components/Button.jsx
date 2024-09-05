@@ -1,4 +1,4 @@
-export const Button = ({ onClick, text, className }) => {
+export const Button = ({ onClick, children, className }) => {
   return (
     <button
       type="submit"
@@ -7,7 +7,7 @@ export const Button = ({ onClick, text, className }) => {
         className ? " " + className : ""
       }`}
     >
-      {text}
+      {children}
     </button>
   );
 };
