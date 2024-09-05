@@ -23,6 +23,7 @@ export const SignUp = () => {
 
   const onSubmit = (formData) => {
     console.log(formData);
+    executePost({ name: formData.name, email: formData.email, password: formData.password });
   };
 
   useEffect(() => {
@@ -33,12 +34,20 @@ export const SignUp = () => {
   }, [data, setToken, navigate]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+    <form noValidate onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+      <div className="mb-5">
+        <label htmlFor="name" className="block mb-2 text-sm font-medium text-darkGrey">
+          Tu nombre
+        </label>
+        <Input {...register("name")} type="name" id="name" placeholder="John Doe" />
+        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+      </div>
+
       <div className="mb-5">
         <label htmlFor="email" className="block mb-2 text-sm font-medium text-darkGrey">
           Tu email
         </label>
-        <Input {...register("email")} type="email" id="email" placeholder="nombre@planea.com" />
+        <Input {...register("email")} type="email" id="email" placeholder="johnDoe@planea.com" />
         {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
       </div>
 
@@ -58,21 +67,24 @@ export const SignUp = () => {
         {errors.repeatPassword && <p className="text-red-500 text-sm">{errors.repeatPassword.message}</p>}
       </div>
 
-      <div className="flex items-start mb-5">
-        <div className="flex items-center h-5">
-          <input
-            id="terms"
-            type="checkbox"
-            className="w-4 h-4 border border-gray-300 rounded bg-gray-50 accent-primary focus:ring-lightViolet"
-            required
-          />
+      <div className="mb-5">
+        <div className="flex items-start">
+          <div className="flex items-center h-5">
+            <input
+              id="terms"
+              type="checkbox"
+              className="w-4 h-4 border border-gray-300 rounded bg-gray-50 accent-primary focus:ring-lightViolet"
+              {...register("terms")}
+            />
+          </div>
+          <label htmlFor="terms" className="ms-2 text-sm font-medium text-darkGrey">
+            Estoy de acuerdo con los{" "}
+            <a href="#" className="text-primary hover:underline">
+              términos y condiciones
+            </a>
+          </label>
         </div>
-        <label htmlFor="terms" className="ms-2 text-sm font-medium text-darkGrey">
-          Estoy de acuerdo con los{" "}
-          <a href="#" className="text-primary hover:underline">
-            términos y condiciones
-          </a>
-        </label>
+        {errors.terms && <p className="text-red-500 text-sm">{errors.terms.message}</p>}
       </div>
 
       <Button>Crear cuenta</Button>
