@@ -22,7 +22,6 @@ export const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = (formData) => {
-    console.log(formData);
     executePost({ name: formData.name, email: formData.email, password: formData.password });
   };
 
@@ -37,7 +36,7 @@ export const SignUp = () => {
     <form noValidate onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
       <div className="mb-5">
         <label htmlFor="name" className="block mb-2 text-sm font-medium text-darkGrey">
-          Tu nombre
+          Nombre
         </label>
         <Input {...register("name")} type="name" id="name" placeholder="John Doe" />
         {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
@@ -45,7 +44,7 @@ export const SignUp = () => {
 
       <div className="mb-5">
         <label htmlFor="email" className="block mb-2 text-sm font-medium text-darkGrey">
-          Tu email
+          Email
         </label>
         <Input {...register("email")} type="email" id="email" placeholder="johnDoe@planea.com" />
         {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
@@ -53,7 +52,7 @@ export const SignUp = () => {
 
       <div className="mb-5">
         <label htmlFor="password" className="block mb-2 text-sm font-medium text-darkGrey">
-          Tu contraseña
+          Contraseña
         </label>
         <Input {...register("password")} type="password" id="password" />
         {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
@@ -61,7 +60,7 @@ export const SignUp = () => {
 
       <div className="mb-5">
         <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-darkGrey">
-          Repite tu contraseña
+          Repite contraseña
         </label>
         <Input {...register("repeatPassword")} type="password" id="repeat-password" />
         {errors.repeatPassword && <p className="text-red-500 text-sm">{errors.repeatPassword.message}</p>}

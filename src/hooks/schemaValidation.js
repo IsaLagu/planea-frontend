@@ -13,3 +13,8 @@ export const signUpSchema = yup.object().shape({
     .required("Repetir la contraseña es obligatorio"),
   terms: yup.bool().oneOf([true], "Es obligatorio aceptar los términos y condiciones"),
 });
+
+export const logInSchema = yup.object().shape({
+  email: yup.string("El formato email no es válido").required("El campo email es obligatorio"),
+  password: yup.string().required("La contraseña es obligatoria"),
+});
