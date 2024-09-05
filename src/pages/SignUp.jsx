@@ -1,28 +1,46 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
+import { signUpSchema } from "../hooks/schemaValidation";
 
 export const SignUp = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(signUpSchema),
+  });
+
+  const onSubmit = (data) => {
+    console.log(data); // Aquí manejas el envío del formulario
+  };
+
   return (
-    <form className="max-w-sm mx-auto">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
       <div className="mb-5">
         <label htmlFor="email" className="block mb-2 text-sm font-medium text-darkGrey">
           Tu email
         </label>
-        <Input type="email" id="email" className="" placeholder="nombre@planea.com" />
+        <Input {...register("email")} type="email" id="email" className="" placeholder="nombre@planea.com" />
+        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
       </div>
 
       <div className="mb-5">
         <label htmlFor="password" className="block mb-2 text-sm font-medium text-darkGrey">
           Tu contraseña
         </label>
-        <Input type="password" id="password" className="" placeholder="" />
+        <Input {...register("password")} type="password" id="password" className="" placeholder="" />
+        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
       </div>
 
       <div className="mb-5">
         <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-darkGrey">
           Repite tu contraseña
         </label>
-        <Input type="password" id="repeat-password" className="" placeholder="" />
+        <Input {...register("repeatPassword")} type="password" id="repeat-password" className="" placeholder="" />
+        {errors.repeatPassword && <p className="text-red-500 text-sm">{errors.repeatPassword.message}</p>}
       </div>
 
       <div className="flex items-start mb-5">
@@ -41,6 +59,7 @@ export const SignUp = () => {
           </a>
         </label>
       </div>
+
       <Button onClick={onclick} text="Crea una nueva cuenta" className="" />
     </form>
   );
