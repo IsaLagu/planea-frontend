@@ -1,3 +1,5 @@
+import { Button } from "../components/Button";
+
 export const SignUp = () => {
   return (
     <form className="max-w-sm mx-auto">
@@ -54,13 +56,7 @@ export const SignUp = () => {
           </a>
         </label>
       </div>
-
-      <button
-        type="submit"
-        className="text-white bg-primary hover:bg-lightViolet focus:ring-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      >
-        Crea una nueva cuenta
-      </button>
+      <Button onClick={onclick} text="Crea una nueva cuenta" className="" />
     </form>
   );
 };
