@@ -5,6 +5,6 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    children: [{ path: "/", element: "/" }],
+    children: [{ path: "/", element: <div>Hola</div> }],
   },
 ]);
