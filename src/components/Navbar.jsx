@@ -5,7 +5,7 @@ import LoggedInMenu from "./LoggedInMenu";
 import { useUser } from "../context/UserContext";
 
 const itemClassName =
-  "block py-2 px-3 text-white bg-primary hover:text-primary hover:bg-lightPink md:hover:bg-transparent md:hover:bg-lightPink rounded-2xl md:p-1 md:px-3";
+  "block py-2 px-3 text-white bg-primary hover:text-primary md:hover:bg-lightPink rounded-2xl md:p-1 md:px-3";
 
 export const Navbar = () => {
   const { user } = useUser();
