@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo_planea.png";
+import LoggedInMenu from "./LoggedInMenu";
+import { useUser } from "../context/UserContext";
 
 const itemClassName =
   "block py-2 px-3 text-white bg-primary hover:text-primary hover:bg-lightPink md:hover:bg-transparent md:hover:bg-lightPink rounded-2xl md:p-1 md:px-3";
 
 export const Navbar = () => {
+  const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -13,10 +16,10 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="">
+    <nav>
       <div className="bg-primary max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="/" className="flex items-center space-x-3">
-          <img src={logo} className="h-8" alt="" />
+          <img src={logo} className="h-8" alt="planea logo" />
           <span className="self-center text-2xl text-white font-semibold whitespace-nowrap">Planea</span>
         </Link>
 
@@ -45,8 +48,8 @@ export const Navbar = () => {
           </svg>
         </button>
 
-        <div className={`w-full ${isOpen ? "block" : "hidden"} md:block md:w-auto p-0`} id="navbar-dropdown">
-          <ul className="font-medium md:p-0 mt-4 md:space-x-2 md:flex-row md:mt-0 md:border-0 flex flex-col md:flex">
+        <div onClick={toggleMenu} className={`w-full ${isOpen ? "block" : "hidden"} md:block md:w-auto p-0`}>
+          <ul className="font-medium md:p-0 mt-4 md:space-x-2 md:flex-row md:mt-0 md:border-0 flex items-center flex-col md:flex">
             <li>
               <Link to="/" className={itemClassName}>
                 Encuentra eventos
@@ -57,16 +60,22 @@ export const Navbar = () => {
                 Crea eventos
               </Link>
             </li>
-            <li>
-              <Link to="/" className={itemClassName}>
-                Inicia sesión
-              </Link>
-            </li>
-            <li>
-              <Link to="/" className={itemClassName}>
-                Regístrate
-              </Link>
-            </li>
+            {user ? (
+              <LoggedInMenu />
+            ) : (
+              <>
+                <li>
+                  <Link to="/login" className={itemClassName}>
+                    Inicia sesión
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/signup" className={itemClassName}>
+                    Regístrate
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
