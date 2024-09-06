@@ -17,7 +17,7 @@ export const Navbar = () => {
 
   return (
     <nav>
-      <div className="bg-primary max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="bg-primary max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-2">
         <Link to="/" className="flex items-center space-x-3">
           <img src={logo} className="h-8" alt="planea logo" />
           <span className="self-center text-2xl text-white font-semibold whitespace-nowrap">Planea</span>

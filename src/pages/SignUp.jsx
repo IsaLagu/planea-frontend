@@ -33,7 +33,7 @@ export const SignUp = () => {
   }, [data, setToken, navigate]);
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+    <form noValidate onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto pt-8">
       <div className="mb-5">
         <label htmlFor="name" className="block mb-2 text-sm font-medium text-darkGrey">
           Nombre
