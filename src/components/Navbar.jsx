@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo_planea.png";
 
 const itemClassName =
-  "block py-2 px-3 text-white bg-primary hover:text-primary hover:bg-[#E6C7FF] md:hover:bg-transparent md:hover:bg-[#E6C7FF] rounded-2xl md:p-1 md:px-3";
+  "block py-2 px-3 text-white bg-primary hover:text-primary hover:bg-lightPink md:hover:bg-transparent md:hover:bg-lightPink rounded-2xl md:p-1 md:px-3";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +23,7 @@ export const Navbar = () => {
         <button
           onClick={toggleMenu}
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-[#E6C7FF]"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-white"
           aria-controls="navbar-dropdown"
           aria-expanded={isOpen}
         >
