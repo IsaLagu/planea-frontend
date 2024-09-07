@@ -1,15 +1,17 @@
-import { Input } from "../../components/Input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Datepicker from "react-tailwindcss-datepicker";
+import { Input } from "../../components/Input";
 
 import Autocomplete from "react-google-autocomplete";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/style.css";
 import { CreateEventSchema } from "./createEventSchema";
 
 export const CreateEvent = () => {
-  const [selected, setSelected] = useState(new Date());
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   const {
     register,
@@ -34,34 +36,51 @@ export const CreateEvent = () => {
           {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
         </div>
 
-        <Autocomplete
-          // apiKey={YOUR_GOOGLE_MAPS_API_KEY}
-          onPlaceSelected={(place) => {
-            console.log(place);
-          }}
-        />
-
-        <div className="block mb-2 font-medium tracking-wide text-darkGrey">Fecha del evento</div>
-        <DayPicker
-          mode="single"
-          selected={selected}
-          onSelect={setSelected}
-          footer={selected ? `Fecha seleccionada: ${selected.toLocaleDateString()}` : "Elige una fecha."}
-          className="mb-5"
-        />
         <div className="mb-5">
-          <label className="block mb-2 font-medium tracking-wide text-darkGrey" htmlFor="event_img">
+          <label htmlFor="location" className="block mb-2 font-medium tracking-wide text-darkGrey">
+            Ubicación
+          </label>
+          <Autocomplete
+            // apiKey={YOUR_GOOGLE_MAPS_API_KEY}
+            id="location"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary w-full p-2.5"
+            onPlaceSelected={(place) => {
+              console.log(place);
+            }}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label className="block mb-2 font-medium tracking-wide text-darkGrey" htmlFor="event-date">
+            Fecha del evento
+          </label>
+          <Datepicker
+            id="event-date"
+            primaryColor="violet"
+            i18n={"es"}
+            startWeekOn="mon"
+            separator="hasta"
+            inputClassName="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary w-full p-2.5"
+            value={value}
+            onChange={(newValue) => setValue(newValue)}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label className="block mb-2 font-medium tracking-wide text-darkGrey" htmlFor="event-img">
             Imagen del evento
           </label>
-          <Input className="cursor-pointer text-gray-500" id="event_img" type="file" />
-          <div className="mt-1 text-sm text-gray-500">Añade una imagen a tu evento</div>
+          <Input className="cursor-pointer text-gray-500" id="event-img" type="file" />
+          <div className="mt-1 text-sm text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px).</div>
         </div>
+
         <div className="mb-5">
           <label htmlFor="price" className="block mb-2 font-medium tracking-wide text-darkGrey">
             Precio de las entradas
           </label>
           <Input type="text" id="price" placeholder="0,00€" />
         </div>
+
         <div className="mb-5">
           <label htmlFor="capacity" className="block mb-2 font-medium tracking-wide text-darkGrey">
             Capacidad del evento

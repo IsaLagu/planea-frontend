@@ -12,13 +12,14 @@
   "dependencies": {
     "@fontsource/lalezar": "^5.0.14",
     "@hookform/resolvers": "^3.9.0",
+    "dayjs": "^1.11.13",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
-    "react-day-picker": "^9.0.8",
     "react-dom": "^18.3.1",
     "react-google-autocomplete": "^2.7.3",
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.26.1",
+    "react-tailwindcss-datepicker": "^1.7.2",
     "yup": "^1.4.0"
   },
   "devDependencies": {
