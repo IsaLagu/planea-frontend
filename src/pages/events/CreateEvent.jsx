@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import { Input } from "../../components/Input";
+import { categories, cities } from "./constants";
 
-import Autocomplete from "react-google-autocomplete";
 import { CreateEventSchema } from "./createEventSchema";
 
 export const CreateEvent = () => {
@@ -41,14 +41,19 @@ export const CreateEvent = () => {
           <label htmlFor="location" className="block mb-2 font-medium tracking-wide text-darkGrey">
             Ciudad
           </label>
-          <Autocomplete
-            // apiKey={YOUR_GOOGLE_MAPS_API_KEY}
+          <select
             id="location"
-            className="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 w-full p-2.5"
-            onPlaceSelected={(place) => {
-              console.log(place);
-            }}
-          />
+            className="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block shadow-sm w-full p-2.5"
+          >
+            {cities.map((city) => (
+              <option
+                className="hover:bg-primary checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
+                value={city.id}
+              >
+                {city.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="mb-9">
@@ -141,30 +146,24 @@ export const CreateEvent = () => {
           </div>
         </div>
 
-        <div class="max-w-sm mb-9">
-          <label for="countries_multiple" class="block mb-2 font-medium text-darkGrey">
+        <div className="max-w-sm mb-9">
+          <label htmlFor="countries_multiple" className="block mb-2 font-medium text-darkGrey">
             Categoría
           </label>
           <select
-            multiple
             id="countries_multiple"
-            class="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block w-full p-2.5"
+            multiple
+            className="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block w-full p-2.5"
           >
-            <option selected>Elige una categoría</option>
-            <option value="DR">Deportes y Recreación</option>
-            <option value="AC">Arte y Cultura</option>
-            <option value="FF">Festivales y Ferias</option>
-            <option value="EA">Educación y Aprendizaje</option>
-            <option value="CT">Ciencia y Tecnología</option>
-            <option value="TM">Talleres y Manualidades</option>
-            <option value="NM">Naturaleza y Medio Ambiente</option>
-            <option value="GA">Gastronomía</option>
-            <option value="JE">Juegos y Entretenimiento</option>
-            <option value="EF">Eventos Familiares</option>
-            <option value="ES">Eventos Sociales</option>
-            <option value="BS">Bienestar y Salud</option>
-            <option value="FT">Festividades y Tradiciones</option>
-            <option value="JD">Juventud y Desarrollo Personal</option>
+            <option disabled>Elige una o varias categorías</option>
+            {categories.map((category) => (
+              <option
+                className="hover:bg-primary checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
+                value={category.id}
+              >
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
 
