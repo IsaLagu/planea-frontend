@@ -70,6 +70,14 @@ export const CreateEvent = () => {
         </div>
 
         <div className="mb-9">
+          <label htmlFor="description" className="block mb-2 font-medium tracking-wide text-darkGrey">
+            Descripción (opcional)
+          </label>
+          <Input {...register("description")} type="text" id="description" />
+          {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+        </div>
+
+        <div className="mb-9">
           <label htmlFor="location" className="block mb-2 font-medium tracking-wide text-darkGrey">
             Ciudad
           </label>
@@ -239,7 +247,7 @@ export const CreateEvent = () => {
                   </p>
                 </>
               )}
-              <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+              <p className="text-xs text-gray-500">PNG o JPG (MAX. 5MB)</p>
             </div>
             <input id="file" onChange={(e) => uploadImage(e)} type="file" className="hidden" />
           </label>

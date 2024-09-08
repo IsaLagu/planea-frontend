@@ -2,6 +2,7 @@ import * as yup from "yup";
 
 export const createEventSchema = yup.object().shape({
   name: yup.string().required("El nombre es obligatorio").max(50, "No puedes exceder los 50 caracteres"),
+  description: yup.string().max(50, "No puedes exceder los 50 caracteres"),
   location: yup.string().required("La ciudad es obligatoria"),
   address: yup.string().required("La ubicación es obligatoria").max(50, "No puedes exceder los 50 caracteres"),
   date: yup
