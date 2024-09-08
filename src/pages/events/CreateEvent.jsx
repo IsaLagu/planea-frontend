@@ -5,9 +5,11 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { Input } from "../../components/Input";
 import { categories, cities } from "./constants";
 
-// Importa el esquema de validación
-import { CreateEventSchema } from "./createEventSchema";
+import { createEventSchema } from "./createEventSchema";
 import { Button } from "../../components/Button";
+
+const preset_name = "yu1h90st";
+const cloud_name = "dtftuh9ky";
 
 export const CreateEvent = () => {
   const [value, setValue] = useState({
@@ -15,18 +17,44 @@ export const CreateEvent = () => {
     endDate: null,
   });
 
+  const [image, setImage] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue: setFormValue,
+    trigger,
   } = useForm({
-    resolver: yupResolver(CreateEventSchema),
-    mode: "onChange",
+    resolver: yupResolver(createEventSchema),
   });
 
   const onSubmit = (formData) => {
-    executePost(formData);
+    console.log(formData);
+    // executePost({...formData, image});
+  };
+
+  const uploadImage = async (e) => {
+    const files = e.target.files;
+
+    setFormValue("image", e.target.files);
+    trigger("image");
+
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", preset_name);
+
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
+        method: "POST",
+        body: data,
+      });
+
+      const file = await response.json();
+      setImage(file.secure_url);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
 
   return (
@@ -85,7 +113,7 @@ export const CreateEvent = () => {
             value={value}
             onChange={(newValue) => {
               setValue(newValue);
-              setFormValue("date", newValue); // Actualiza el valor en el formulario
+              setFormValue("date", newValue);
             }}
           />
           {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
@@ -179,12 +207,42 @@ export const CreateEvent = () => {
           {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
         </div>
 
-        <div className="mb-9">
-          <label className="block mb-2 font-medium tracking-wide text-darkGrey" htmlFor="event-img">
-            Imagen del evento
+        <div className="block mb-2 font-medium tracking-wide text-darkGrey">Imagen del evento</div>
+        <div className="flex items-center justify-center w-full mb-9">
+          <label
+            htmlFor="file"
+            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+          >
+            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              {image ? (
+                <img className="max-w-[300px]" src={image} />
+              ) : (
+                <>
+                  {" "}
+                  <svg
+                    className="w-8 h-8 mb-4 text-gray-500"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                    />
+                  </svg>
+                  <p className="mb-2 text-sm text-gray-500">
+                    <span className="font-semibold">Cliquea para subir una imagen</span> o arrastra una imagen
+                  </p>
+                </>
+              )}
+              <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+            </div>
+            <input id="file" onChange={(e) => uploadImage(e)} type="file" className="hidden" />
           </label>
-          <Input {...register("image")} className="cursor-pointer text-gray-500" id="event-img" type="file" />
-          <div className="mt-1 text-sm text-gray-500">SVG, PNG, JPG o GIF (MAX. 800x400px).</div>
           {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
         </div>
 

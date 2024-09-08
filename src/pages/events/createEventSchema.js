@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const CreateEventSchema = yup.object().shape({
+export const createEventSchema = yup.object().shape({
   name: yup.string().required("El nombre es obligatorio").max(50, "No puedes exceder los 50 caracteres"),
   location: yup.string().required("La ciudad es obligatoria"),
   address: yup.string().required("La ubicación es obligatoria").max(50, "No puedes exceder los 50 caracteres"),
@@ -14,18 +14,14 @@ export const CreateEventSchema = yup.object().shape({
   category: yup.array().of(yup.string()).required("La categoría es obligatoria"),
   image: yup
     .mixed()
-    .nullable()
-    .test("fileType", "El archivo debe ser SVG, PNG, JPG o GIF", (value) => {
-      if (!value) return true; // Si no hay archivo, es opcional
-      const allowedTypes = ["image/svg+xml", "image/png", "image/jpeg", "image/gif"];
-      return allowedTypes.includes(value.type);
+    .test("fileSize", "El archivo es demasiado grande", (value) => {
+      return value && value[0] && value[0].size <= 5 * 1024 * 1024;
     })
-    .test("fileSize", "El archivo debe tener un máximo de 800x400px", (value) => {
-      if (!value) return true; // Si no hay archivo, es opcional
-      // Aquí deberías agregar la lógica para verificar el tamaño de la imagen
-      // Esto puede ser complicado en el lado del cliente sin procesar el archivo
-      return true; // Suponemos que el tamaño se verifica en el backend
-    }),
+    .test("fileType", "El formato de la imagen no es válido", (value) => {
+      return value && value[0] && ["image/jpeg", "image/png"].includes(value[0].type);
+    })
+    .nullable()
+    .notRequired(),
   price: yup
     .string()
     .matches(/^\d+(\.\d{1,2})?$/, "El precio debe ser un número válido")
