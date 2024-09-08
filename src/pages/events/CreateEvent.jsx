@@ -39,16 +39,24 @@ export const CreateEvent = () => {
 
         <div className="mb-9">
           <label htmlFor="location" className="block mb-2 font-medium tracking-wide text-darkGrey">
-            Ubicación
+            Ciudad
           </label>
           <Autocomplete
             // apiKey={YOUR_GOOGLE_MAPS_API_KEY}
             id="location"
-            className="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary w-full p-2.5"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 w-full p-2.5"
             onPlaceSelected={(place) => {
               console.log(place);
             }}
           />
+        </div>
+
+        <div className="mb-9">
+          <label htmlFor="address" className="block mb-2 font-medium tracking-wide text-darkGrey">
+            Ubicación
+          </label>
+          <Input {...register("address")} type="name" id="address" />
+          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
         </div>
 
         <div className="mb-9">
@@ -61,7 +69,7 @@ export const CreateEvent = () => {
             i18n={"es"}
             startWeekOn="mon"
             separator="hasta"
-            inputClassName="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary w-full p-2.5"
+            inputClassName="shadow-sm bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 w-full p-2.5"
             value={value}
             onChange={(newValue) => setValue(newValue)}
           />
@@ -92,7 +100,7 @@ export const CreateEvent = () => {
               <input
                 type="time"
                 id="start-time"
-                className="bg-gray-50 border leading-none border-gray-300 text-darkGrey text-sm rounded-lg focus:border-primary block w-full p-2.5"
+                className="bg-gray-50 border leading-none border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block w-full p-2.5"
                 min="09:00"
                 max="18:00"
                 value="00:00"
@@ -123,7 +131,7 @@ export const CreateEvent = () => {
               <input
                 type="time"
                 id="end-time"
-                className="bg-gray-50 border leading-none border-gray-300 text-darkGrey text-sm rounded-lg focus:border-primary block w-full p-2.5"
+                className="bg-gray-50 border leading-none border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block w-full p-2.5"
                 min="09:00"
                 max="18:00"
                 value="00:00"
@@ -131,6 +139,33 @@ export const CreateEvent = () => {
               />
             </div>
           </div>
+        </div>
+
+        <div class="max-w-sm mb-9">
+          <label for="countries_multiple" class="block mb-2 font-medium text-darkGrey">
+            Categoría
+          </label>
+          <select
+            multiple
+            id="countries_multiple"
+            class="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block w-full p-2.5"
+          >
+            <option selected>Elige una categoría</option>
+            <option value="DR">Deportes y Recreación</option>
+            <option value="AC">Arte y Cultura</option>
+            <option value="FF">Festivales y Ferias</option>
+            <option value="EA">Educación y Aprendizaje</option>
+            <option value="CT">Ciencia y Tecnología</option>
+            <option value="TM">Talleres y Manualidades</option>
+            <option value="NM">Naturaleza y Medio Ambiente</option>
+            <option value="GA">Gastronomía</option>
+            <option value="JE">Juegos y Entretenimiento</option>
+            <option value="EF">Eventos Familiares</option>
+            <option value="ES">Eventos Sociales</option>
+            <option value="BS">Bienestar y Salud</option>
+            <option value="FT">Festividades y Tradiciones</option>
+            <option value="JD">Juventud y Desarrollo Personal</option>
+          </select>
         </div>
 
         <div className="mb-9">
