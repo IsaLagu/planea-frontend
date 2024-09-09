@@ -4,8 +4,7 @@ import logo from "../assets/logo_planea.png";
 import LoggedInMenu from "./LoggedInMenu";
 import { useUser } from "../context/UserContext";
 
-const itemClassName =
-  "block py-2 px-3 text-white bg-primary hover:text-primary md:hover:bg-lightPink rounded-2xl md:p-1 md:px-3";
+const itemClassName = "block py-2 px-3 text-white bg-primary hover:text-primary hover:bg-lightPink rounded-2xl";
 
 export const Navbar = () => {
   const { user } = useUser();
@@ -17,7 +16,7 @@ export const Navbar = () => {
 
   return (
     <nav>
-      <div className="bg-primary max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-2">
+      <div className="bg-primary max-w-screen-xl flex flex-wrap items-center justify-between mx-auto text-sm px-4 py-2">
         <Link to="/" className="flex items-center space-x-3">
           <img src={logo} className="h-8" alt="planea logo" />
           <span className="self-center text-2xl text-white font-semibold whitespace-nowrap">Planea</span>
@@ -26,7 +25,7 @@ export const Navbar = () => {
         <button
           onClick={toggleMenu}
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-white"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-white rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-white"
           aria-controls="navbar-dropdown"
           aria-expanded={isOpen}
         >
@@ -56,7 +55,7 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/" className={itemClassName}>
+              <Link to="/events/create" className={itemClassName}>
                 Crea eventos
               </Link>
             </li>
