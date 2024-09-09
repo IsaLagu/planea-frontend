@@ -238,7 +238,7 @@ export const CreateEvent = () => {
             {(categories || []).map((category) => (
               <option
                 key={category.id}
-                className="hover:bg-primary checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
+                className="hover:bg-lightViolet checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
                 value={category.id}
               >
                 {category.name}
