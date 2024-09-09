@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import { Input } from "../../components/Input";
-import { categories, cities } from "./constants";
 
 import { createEventSchema } from "./createEventSchema";
 import { Button } from "../../components/Button";
+import useGet from "../../hooks/useGet";
 
 const preset_name = "yu1h90st";
 const cloud_name = "dtftuh9ky";
@@ -28,6 +28,10 @@ export const CreateEvent = () => {
   } = useForm({
     resolver: yupResolver(createEventSchema),
   });
+
+  const { data: cities } = useGet("/api/cities");
+  const { data: categories } = useGet("/api/categories");
+  console.log(cities);
 
   const onSubmit = (formData) => {
     console.log(formData);
@@ -86,7 +90,7 @@ export const CreateEvent = () => {
             {...register("location")}
             className="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block shadow-sm w-full p-2.5"
           >
-            {cities.map((city) => (
+            {(cities || []).map((city) => (
               <option
                 key={city.id}
                 className="hover:bg-primary checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
@@ -202,7 +206,7 @@ export const CreateEvent = () => {
             className="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block w-full p-2.5"
           >
             <option disabled>Elige una o varias categorías</option>
-            {categories.map((category) => (
+            {(categories || []).map((category) => (
               <option
                 key={category.id}
                 className="hover:bg-primary checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
