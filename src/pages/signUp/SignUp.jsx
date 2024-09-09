@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "../components/Button";
-import { Input } from "../components/Input";
-import { signUpSchema } from "../hooks/schemaValidation";
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
+import { signUpSchema } from "./signUpSchema";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../context/UserContext";
-import usePost from "../hooks/usePost";
+import { useUser } from "../../context/UserContext";
+import usePost from "../../hooks/usePost";
 import { useEffect } from "react";
 
 export const SignUp = () => {
