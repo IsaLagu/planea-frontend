@@ -1,10 +1,10 @@
 import * as yup from "yup";
 
 export const createEventSchema = yup.object().shape({
-  name: yup.string().required("El nombre es obligatorio").max(50, "No puedes exceder los 50 caracteres"),
+  title: yup.string().required("El nombre es obligatorio").max(50, "No puedes exceder los 50 caracteres"),
   description: yup.string().max(50, "No puedes exceder los 50 caracteres"),
-  location: yup.string().required("La ciudad es obligatoria"),
-  address: yup.string().required("La ubicación es obligatoria").max(50, "No puedes exceder los 50 caracteres"),
+  cityId: yup.string().required("La ciudad es obligatoria"),
+  location: yup.string().required("La ubicación es obligatoria").max(50, "No puedes exceder los 50 caracteres"),
   date: yup
     .object()
     .shape({
@@ -12,7 +12,7 @@ export const createEventSchema = yup.object().shape({
       endDate: yup.date().required("La fecha de fin es obligatoria"),
     })
     .required("La fecha es obligatoria"),
-  category: yup.array().of(yup.string()).required("La categoría es obligatoria"),
+  categoryIds: yup.array().of(yup.string()).required("La categoría es obligatoria"),
   image: yup
     .mixed()
     .test("fileSize", "El archivo es demasiado grande", (value) => {
@@ -25,7 +25,7 @@ export const createEventSchema = yup.object().shape({
     .notRequired(),
   price: yup
     .string()
-    .matches(/^\d+(\.\d{1,2})?$/, "El precio debe ser un número válido")
-    .nullable(),
-  capacity: yup.string().matches(/^\d+$/, "La capacidad debe ser un número válido").nullable(),
+    .notRequired()
+    .matches(/^\d+(\.\d{1,2})?$/, "El precio debe ser un número válido"),
+  capacity: yup.string().notRequired().matches(/^\d+$/, "La capacidad debe ser un número válido"),
 });
