@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import { Input } from "../../components/Input";
-import { categories, cities } from "./constants";
 
 import { createEventSchema } from "./createEventSchema";
 import { Button } from "../../components/Button";
+import useGet from "../../hooks/useGet";
+import { convertToIsoDateString } from "./utils";
+import usePost from "../../hooks/usePost";
 
 const preset_name = "yu1h90st";
 const cloud_name = "dtftuh9ky";
@@ -17,7 +20,10 @@ export const CreateEvent = () => {
     endDate: null,
   });
 
-  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  const { data: cities } = useGet("/api/cities");
+  const { data: categories } = useGet("/api/categories");
 
   const {
     register,
@@ -29,9 +35,36 @@ export const CreateEvent = () => {
     resolver: yupResolver(createEventSchema),
   });
 
+  const { error, executePost, data } = usePost("/api/events");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data) {
+      navigate("/");
+    }
+  }, [data, navigate]);
+
   const onSubmit = (formData) => {
-    console.log(formData);
-    // executePost({...formData, image});
+    const startDate = `${convertToIsoDateString(formData.date.startDate)}T${
+      formData.startTime ? formData.startTime + ":00" : "00:00:00"
+    }`;
+    const endDate = `${convertToIsoDateString(formData.date.endDate)}T${
+      formData.endTime ? formData.endTime + ":00" : "00:00:00"
+    }`;
+    const parsedFormData = {
+      ...formData,
+      date: undefined,
+      image: undefined,
+      startTime: undefined,
+      endTime: undefined,
+      category: undefined,
+      imageUrl,
+      startDate,
+      endDate,
+      price: Number(formData.price),
+      capacity: Number(formData.capacity),
+    };
+    executePost(parsedFormData);
   };
 
   const uploadImage = async (e) => {
@@ -51,7 +84,7 @@ export const CreateEvent = () => {
       });
 
       const file = await response.json();
-      setImage(file.secure_url);
+      setImageUrl(file.secure_url);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -62,11 +95,11 @@ export const CreateEvent = () => {
       <h1 className="text-primary text-center text-3xl font-bold mb-9">Crea tu evento</h1>
       <form noValidate onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto">
         <div className="mb-9">
-          <label htmlFor="name" className="block mb-2 font-medium tracking-wide text-darkGrey">
+          <label htmlFor="title" className="block mb-2 font-medium tracking-wide text-darkGrey">
             Nombre del evento
           </label>
-          <Input {...register("name")} type="text" id="name" />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+          <Input {...register("title")} type="text" id="title" />
+          {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
         </div>
 
         <div className="mb-9">
@@ -78,15 +111,15 @@ export const CreateEvent = () => {
         </div>
 
         <div className="mb-9">
-          <label htmlFor="location" className="block mb-2 font-medium tracking-wide text-darkGrey">
+          <label htmlFor="cityId" className="block mb-2 font-medium tracking-wide text-darkGrey">
             Ciudad
           </label>
           <select
-            id="location"
-            {...register("location")}
+            id="cityId"
+            {...register("cityId")}
             className="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block shadow-sm w-full p-2.5"
           >
-            {cities.map((city) => (
+            {(cities || []).map((city) => (
               <option
                 key={city.id}
                 className="hover:bg-primary checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
@@ -96,15 +129,15 @@ export const CreateEvent = () => {
               </option>
             ))}
           </select>
-          {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
+          {errors.cityId && <p className="text-red-500 text-sm">{errors.cityId.message}</p>}
         </div>
 
         <div className="mb-9">
-          <label htmlFor="address" className="block mb-2 font-medium tracking-wide text-darkGrey">
+          <label htmlFor="location" className="block mb-2 font-medium tracking-wide text-darkGrey">
             Ubicación
           </label>
-          <Input {...register("address")} type="text" id="address" />
-          {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
+          <Input {...register("location")} type="text" id="location" />
+          {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
         </div>
 
         <div className="mb-9">
@@ -192,17 +225,17 @@ export const CreateEvent = () => {
         </div>
 
         <div className="max-w-sm mb-9">
-          <label htmlFor="category" className="block mb-2 font-medium text-darkGrey">
+          <label htmlFor="categoryIds" className="block mb-2 font-medium text-darkGrey">
             Categoría
           </label>
           <select
-            id="category"
-            {...register("category")}
+            id="categoryIds"
+            {...register("categoryIds")}
             multiple
             className="bg-gray-50 border border-gray-300 text-darkGrey text-sm rounded-lg focus:outline-none focus:border-primary focus:border-2 block w-full p-2.5"
           >
             <option disabled>Elige una o varias categorías</option>
-            {categories.map((category) => (
+            {(categories || []).map((category) => (
               <option
                 key={category.id}
                 className="hover:bg-primary checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white"
@@ -212,7 +245,7 @@ export const CreateEvent = () => {
               </option>
             ))}
           </select>
-          {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+          {errors.categoryIds && <p className="text-red-500 text-sm">{errors.categoryIds.message}</p>}
         </div>
 
         <div className="block mb-2 font-medium tracking-wide text-darkGrey">Imagen del evento</div>
@@ -222,8 +255,8 @@ export const CreateEvent = () => {
             className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              {image ? (
-                <img className="max-w-[300px]" src={image} />
+              {imageUrl ? (
+                <img className="max-w-[300px]" src={imageUrl} />
               ) : (
                 <>
                   {" "}
