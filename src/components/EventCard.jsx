@@ -1,7 +1,19 @@
 import { Link } from "react-router-dom";
 import { formatDateTime } from "../pages/events/utils";
+import { useState } from "react";
+import { ModalDelete } from "./ModalDelete";
 
 export const EventCard = ({ event, deletable = false }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="w-[300px] h-[375px] text-darkGrey text-sm border border-gray-200 rounded-lg shadow relative">
       <div>
@@ -9,7 +21,7 @@ export const EventCard = ({ event, deletable = false }) => {
           <img className="rounded-t-lg" src={event.imageUrl} alt={event.title} />
         </Link>
         {deletable && (
-          <button type="button">
+          <button type="button" onClick={handleOpenModal}>
             <svg
               className="absolute top-0 right-0 m-2"
               width="50px"
@@ -87,6 +99,8 @@ export const EventCard = ({ event, deletable = false }) => {
           />
         </svg>
       </Link>
+
+      {isModalOpen && <ModalDelete onClose={handleCloseModal} />}
     </div>
   );
 };

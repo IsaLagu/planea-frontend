@@ -18,7 +18,7 @@ export const EventDetails = () => {
     <div className="flex justify-center">
       <div className="text-darkGrey borderrounded-lg relative">
         <div className="flex justify-center">
-          <img className="rounded-lg" src={event.imageUrl} alt="" />
+          <img className="rounded-lg" src={event.imageUrl} alt={event.title} />
         </div>
         <div className="p-2">
           <h5 className="my-8 text-5xl font-medium tracking-tight text-primary">{event.title}</h5>
