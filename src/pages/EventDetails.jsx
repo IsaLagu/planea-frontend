@@ -1,6 +1,5 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useGet from "../hooks/useGet";
-import { formatDateTime } from "./events/utils";
 
 export const EventDetails = () => {
   const { id } = useParams();
@@ -13,22 +12,22 @@ export const EventDetails = () => {
   if (error) {
     return <p>Error: {error.message}</p>;
   }
-
   return (
     <div className="flex justify-center">
       <div className="text-darkGrey borderrounded-lg relative">
-        <div className="flex justify-center">
-          <img className="rounded-lg" src={event.imageUrl} alt="" />
+        <div className="w-[500px]">
+          <img className="rounded-t-lg" src={event.imageUrl} alt="" />
         </div>
         <div className="p-2">
-          <h5 className="my-8 text-5xl font-medium tracking-tight text-primary">{event.title}</h5>
-          <h3 className="text-2xl font-medium">Acerca de este evento</h3>
-          <p className="mb-4">{event.description}</p>
-          <h3 className="text-2xl font-medium">Ubicación</h3>
-          <p className="mb-4">{`${event.location} - ${event.city.name}`}</p>
-          <h3 className="text-2xl font-medium">Fecha y Hora</h3>
-          <p className="mb-4">{`${formatDateTime(event.startDate)} - ${formatDateTime(event.endDate)}`}</p>
-          <p className="mb-4 text-xl font-medium">{`Desde ${event.price}€`}</p>
+          <h5 className="mb-2 text-2xl font-medium tracking-tight leading-6 text-darkGrey">{event.title}</h5>
+          <p className="mb-1 font-medium">{event.description}</p>
+          <p className="mb-1">{event.location}</p>
+          <p className="mb-1">{event.location}</p>
+          <p className="mb-1">{event.cityId}</p>
+          <p className="mb-1">{`${event.startTime}, `}</p>
+          <p className="mb-1">{`${event.endTime}, `}</p>
+          <p className="sm">{`${event.capacity}€`}</p>
+          <p className="sm">{`${event.price}€`}</p>
         </div>
       </div>
     </div>

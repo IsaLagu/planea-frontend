@@ -51,7 +51,7 @@ const LoggedInMenu = () => {
       >
         <ul className="p-2 text-sm text-white">
           <li>
-            <Link to="/my-events" className={itemClassName}>
+            <Link to="/" className={itemClassName}>
               Mis eventos
             </Link>
           </li>

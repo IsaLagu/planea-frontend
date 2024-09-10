@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 export function convertToIsoDateString(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -7,5 +5,3 @@ export function convertToIsoDateString(date) {
 
   return `${year}-${month}-${day}`;
 }
-
-export const formatDateTime = (date) => dayjs(date).format("ddd, D MMM YYYY HH:mm");
