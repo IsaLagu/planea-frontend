@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 
-export const EventCard = ({ imageUrl, title, cityId, location, startTime, price }) => {
+export const EventCard = ({ id, imageUrl, title, cityId, location, startTime, price }) => {
   return (
     <div className="w-[300px] h-[375px] text-darkGrey text-sm border border-gray-200 rounded-lg shadow relative">
       <div>
-        <Link>
-          <img className="rounded-t-lg object-cover" src={imageUrl} alt="" />
+        <Link to={`/events/${id}`}>
+          <img className="rounded-t-lg" src={imageUrl} alt="" />
         </Link>
       </div>
       <div className="p-2">
-        <Link>
+        <Link to={`/events/${id}`}>
           <h5 className="mb-2 text-2xl font-medium tracking-tight leading-6 text-darkGrey">{title}</h5>
         </Link>
         <p className="mb-1">{location}</p>
@@ -17,7 +17,10 @@ export const EventCard = ({ imageUrl, title, cityId, location, startTime, price 
         <p className="mb-1">{`${startTime}, `}</p>
         <p className="sm">{`${price}€`}</p>
       </div>
-      <Link className="absolute bottom-0 right-0 inline-flex items-center mx-2 mb-2 px-3 py-2 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-lightViolet focus:outline-none">
+      <Link
+        to={`/events/${id}`}
+        className="absolute bottom-0 right-0 inline-flex items-center mx-2 mb-2 px-3 py-2 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-lightViolet focus:outline-none"
+      >
         Ver evento
         <svg
           className="rtl:rotate-180 w-3.5 h-3.5 ms-2"

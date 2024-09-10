@@ -4,6 +4,7 @@ import { SignUp } from "./pages/signUp/SignUp";
 import { LogIn } from "./pages/logIn/LogIn";
 import { CreateEvent } from "./pages/events/CreateEvent";
 import { Home } from "./pages/Home";
+import { EventDetails } from "./pages/EventDetails";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
       { path: "/signup", element: <SignUp /> },
       { path: "/login", element: <LogIn /> },
       { path: "/events/create", element: <CreateEvent /> },
+      { path: "/events/:id", element: <EventDetails /> },
     ],
   },
 ]);

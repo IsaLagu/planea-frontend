@@ -13,11 +13,12 @@ export const Home = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-wrap justify-center gap-8 lg:gap-4">
       {Array.isArray(events) && events.length > 0 ? (
         events.map((event) => (
           <EventCard
             key={event.id}
+            id={event.id}
             imageUrl={event.imageUrl}
             title={event.title}
             cityId={event.cityId}
@@ -29,6 +30,6 @@ export const Home = () => {
       ) : (
         <p>No hay eventos disponibles</p>
       )}
-    </>
+    </div>
   );
 };
