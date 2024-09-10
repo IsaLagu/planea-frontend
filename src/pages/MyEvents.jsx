@@ -13,7 +13,7 @@ export const MyEvents = () => {
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-9 lg:gap-4">
+    <div className="flex flex-wrap justify-center gap-8 lg:gap-4">
       {events?.length ? (
         events.map((event) => <EventCard deletable event={event} key={event.id} />)
       ) : (
