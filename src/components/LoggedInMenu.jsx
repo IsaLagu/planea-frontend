@@ -1,17 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const itemClassName =
-  "block px-4 py-2 text-white text-center bg-primary hover:text-primary hover:bg-lightPink rounded-2xl md:bg-white md:text-primary md:hover:bg-primary md:hover:text-lightPink";
+  "block mx-auto w-full px-4 py-2 text-white text-center bg-primary hover:text-primary hover:bg-lightPink rounded-2xl md:bg-white md:text-primary md:hover:bg-primary md:hover:text-lightPink";
 
 const LoggedInMenu = () => {
   const { user, clearToken } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Hook para escuchar cambios de ruta
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false); // Cerrar el menú
   };
 
   const onLogout = () => {
@@ -20,9 +25,32 @@ const LoggedInMenu = () => {
   };
 
   const handleMenu = (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Detener la propagación para evitar que el click fuera del menú lo cierre
     toggleMenu();
   };
+
+  // Detecta clics fuera del menú y lo cierra
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const menuElement = document.querySelector(".relative"); // Selector del menú
+      if (menuElement && !menuElement.contains(event.target)) {
+        closeMenu(); // Cierra el menú si se hace clic fuera
+      }
+    };
+
+    // Escuchar eventos de clic
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Limpiar el evento al desmontar
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  // Cerrar el menú cuando se navega a otra página
+  useEffect(() => {
+    closeMenu(); // Cierra el menú cuando la ruta cambia
+  }, [location]);
 
   return (
     <div className="relative">
@@ -51,12 +79,18 @@ const LoggedInMenu = () => {
       >
         <ul className="p-2 text-sm text-white">
           <li>
-            <Link to="/my-events" className={itemClassName}>
+            <Link
+              to="/my-events"
+              className={itemClassName}
+              onClick={closeMenu} // Cierra el menú al hacer clic
+            >
               Mis eventos
             </Link>
           </li>
-          <li onClick={onLogout} className={itemClassName}>
-            Cierra sesión
+          <li>
+            <button onClick={onLogout} className={itemClassName}>
+              Cierra sesión
+            </button>
           </li>
         </ul>
       </div>
