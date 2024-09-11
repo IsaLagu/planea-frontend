@@ -1,43 +1,57 @@
+import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { createContext, useState, useEffect, useContext } from "react";
 
-const UserContext = createContext(null);
+const UserContext = createContext();
 
-const decodeToken = (token) => {
-  try {
-    return jwtDecode(token);
-  } catch (error) {
-    console.error("Invalid token:", error);
-    return null;
-  }
-};
+export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(() => localStorage.getItem("jwtToken"));
+  const navigate = useNavigate();
+
+  const checkTokenExpiration = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+
+      const isExpired = decodedToken.exp * 1000 < Date.now();
+      if (isExpired) {
+        clearToken();
+      }
+    }
+  };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     if (token) {
-      const decodedUser = decodeToken(token);
-      setUser({ email: decodedUser.sub });
-    } else {
-      setUser(null);
-    }
-  }, [token]);
+      const decodedToken = jwtDecode(token);
 
-  const saveToken = (newToken) => {
-    localStorage.setItem("jwtToken", newToken);
-    setToken(newToken);
+      if (decodedToken.exp * 1000 > Date.now()) {
+        setUser({ email: decodedToken.sub });
+      } else {
+        clearToken();
+      }
+    }
+
+    const intervalId = setInterval(() => {
+      checkTokenExpiration();
+    }, 60 * 10 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const setToken = (token) => {
+    localStorage.setItem("token", token);
+    const decodedToken = jwtDecode(token);
+    setUser({ email: decodedToken.sub });
   };
 
   const clearToken = () => {
-    localStorage.removeItem("jwtToken");
-    setToken(null);
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/");
   };
 
-  return (
-    <UserContext.Provider value={{ user, token, setToken: saveToken, clearToken }}>{children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user, setToken, clearToken }}>{children}</UserContext.Provider>;
 };
-
-export const useUser = () => useContext(UserContext);
