@@ -79,11 +79,7 @@ const LoggedInMenu = () => {
       >
         <ul className="p-2 text-sm text-white">
           <li>
-            <Link
-              to="/my-events"
-              className={itemClassName}
-              onClick={closeMenu} // Cierra el menú al hacer clic
-            >
+            <Link to="/my-events" className={itemClassName} onClick={closeMenu}>
               Mis eventos
             </Link>
           </li>
