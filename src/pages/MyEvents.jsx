@@ -1,24 +1,42 @@
+import { useState } from "react";
 import { EventCard } from "../components/EventCard";
 import useGet from "../hooks/useGet";
+import { ModalDelete } from "../components/ModalDelete";
+import useDelete from "../hooks/useDelete";
 
 export const MyEvents = () => {
-  const { data: events, loading, error } = useGet(`/api/events`);
+  const { data: events, loading, error, executeGet } = useGet(`/api/events/user`);
+  const [eventIdToDelete, setEventIdToDelete] = useState(null);
+  const { data: deletedEvent, executeDelete } = useDelete(`/api/events/${eventIdToDelete}`);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }
+  const handleDelete = (eventId) => {
+    setEventIdToDelete(eventId);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteSubmit = () => {
+    setIsModalOpen(false);
+    executeDelete();
+    setTimeout(() => {
+      executeGet();
+    }, 500);
+  };
 
   return (
     <div className="max-w-screen-xl flex flex-wrap mx-auto justify-center gap-x-8 gap-y-10">
       {events?.length ? (
-        events.map((event) => <EventCard deletable event={event} key={event.id} />)
+        events.map((event) => <EventCard onDelete={() => handleDelete(event.id)} event={event} key={event.id} />)
       ) : (
-        <p>No hay eventos disponibles</p>
+        <>{!loading && <p>No hay eventos disponibles</p>}</>
       )}
+      {loading && <p>Cargando...</p>}
+      {error && <p>Error: {error.message}</p>}
+      {isModalOpen && <ModalDelete onOk={handleDeleteSubmit} onClose={handleCloseModal} />}
     </div>
   );
 };
