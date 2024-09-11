@@ -5,7 +5,7 @@ import useFetch from "./useFetch";
 const useGet = (endpoint) => {
   const { token } = useUser();
 
-  const { data, loading, error } = useFetch(endpoint, {
+  const { data, loading, error, fetch } = useFetch(endpoint, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +13,7 @@ const useGet = (endpoint) => {
     },
   });
 
-  return { data, loading, error };
+  return { data, loading, error, executeGet: fetch };
 };
 
 export default useGet;
