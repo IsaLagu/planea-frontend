@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UserContext = createContext(null);
@@ -16,6 +17,7 @@ const decodeToken = (token) => {
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem("token"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isTokenExpired()) {
@@ -58,6 +60,7 @@ export const UserProvider = ({ children }) => {
   const clearToken = () => {
     localStorage.removeItem("token");
     setToken(null);
+    navigate("/");
   };
 
   return (
