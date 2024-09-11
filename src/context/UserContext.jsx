@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const UserContext = createContext();
 
@@ -18,6 +19,7 @@ export const UserProvider = ({ children }) => {
       const isExpired = decodedToken.exp * 1000 < Date.now();
       if (isExpired) {
         clearToken();
+        toast("🚀 ¡Uuuups! Su sesión ha expirado");
       }
     }
   };

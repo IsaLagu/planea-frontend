@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { UserProvider } from "../context/UserContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Layout = () => {
   return (
@@ -11,6 +13,7 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
+      <ToastContainer hideProgressBar position="bottom-right" />
     </UserProvider>
   );
 };
