@@ -1,59 +1,68 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 
-const UserContext = createContext();
+const UserContext = createContext(null);
 
-export const useUser = () => useContext(UserContext);
+const decodeToken = (token) => {
+  try {
+    return jwtDecode(token);
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return null;
+  }
+};
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-  const checkTokenExpiration = () => {
+  useEffect(() => {
+    if (isTokenExpired()) {
+      clearToken();
+    }
+
+    if (token) {
+      const decodedUser = decodeToken(token);
+      setUser({ email: decodedUser.sub });
+    } else {
+      setUser(null);
+    }
+  }, [token]);
+
+  const isTokenExpired = () => {
     const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
-
-      const isExpired = decodedToken.exp * 1000 < Date.now();
-      if (isExpired) {
-        clearToken();
-        toast("🚀 ¡Uuuups! Su sesión ha expirado");
-      }
+      return decodedToken.exp * 1000 < Date.now();
     }
+    return false;
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = jwtDecode(token);
-
-      if (decodedToken.exp * 1000 > Date.now()) {
-        setUser({ email: decodedToken.sub });
-      } else {
-        clearToken();
-      }
-    }
-
     const intervalId = setInterval(() => {
-      checkTokenExpiration();
+      if (isTokenExpired()) {
+        clearToken();
+        toast("🚀 ¡Uuuups! Tu sesión ha expirado");
+      }
     }, 60 * 10 * 1000);
 
     return () => clearInterval(intervalId);
   }, []);
 
-  const setToken = (token) => {
-    localStorage.setItem("token", token);
-    const decodedToken = jwtDecode(token);
-    setUser({ email: decodedToken.sub });
+  const saveToken = (newToken) => {
+    localStorage.setItem("token", newToken);
+    setToken(newToken);
   };
 
   const clearToken = () => {
     localStorage.removeItem("token");
-    setUser(null);
-    navigate("/");
+    setToken(null);
   };
 
-  return <UserContext.Provider value={{ user, setToken, clearToken }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, token, setToken: saveToken, clearToken }}>{children}</UserContext.Provider>
+  );
 };
+
+export const useUser = () => useContext(UserContext);
