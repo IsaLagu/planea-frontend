@@ -6,13 +6,18 @@ import { signUpSchema } from "./signUpSchema";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import usePost from "../../hooks/usePost";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ModalTerms } from "../../components/ModalTerms";
 
 export const SignUp = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(signUpSchema),
   });
@@ -23,6 +28,20 @@ export const SignUp = () => {
 
   const onSubmit = (formData) => {
     executePost({ name: formData.name, email: formData.email, password: formData.password });
+  };
+
+  const handleTermsClick = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const handleModalAccept = () => {
+    setTermsAccepted(true);
+    setValue("terms", true);
+    setShowModal(false);
   };
 
   useEffect(() => {
@@ -73,20 +92,23 @@ export const SignUp = () => {
               id="terms"
               type="checkbox"
               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 accent-primary focus:ring-lightViolet"
+              checked={termsAccepted}
+              readOnly
               {...register("terms")}
             />
           </div>
           <label htmlFor="terms" className="ms-2 text-sm font-medium text-darkGrey">
             Estoy de acuerdo con los{" "}
-            <a href="#" className="text-primary hover:underline">
+            <button type="button" className="text-primary hover:underline" onClick={handleTermsClick}>
               términos y condiciones
-            </a>
+            </button>
           </label>
         </div>
         {errors.terms && <p className="text-red-500 text-sm">{errors.terms.message}</p>}
       </div>
 
       <Button>Crear cuenta</Button>
+      {showModal && <ModalTerms onClose={handleModalClose} onOk={handleModalAccept} />}
     </form>
   );
 };

@@ -8,7 +8,7 @@ import { Spinner } from "../components/Spinner";
 export const MyEvents = () => {
   const { data: events, loading, error, executeGet } = useGet(`/api/events/user`);
   const [eventIdToDelete, setEventIdToDelete] = useState(null);
-  const { data: deletedEvent, executeDelete } = useDelete(`/api/events/${eventIdToDelete}`);
+  const { executeDelete } = useDelete(`/api/events/${eventIdToDelete}`);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCloseModal = () => {
