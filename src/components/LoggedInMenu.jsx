@@ -9,14 +9,14 @@ const LoggedInMenu = () => {
   const { user, clearToken } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // Hook para escuchar cambios de ruta
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const closeMenu = () => {
-    setIsOpen(false); // Cerrar el menú
+    setIsOpen(false);
   };
 
   const onLogout = () => {
@@ -25,31 +25,27 @@ const LoggedInMenu = () => {
   };
 
   const handleMenu = (e) => {
-    e.stopPropagation(); // Detener la propagación para evitar que el click fuera del menú lo cierre
+    e.stopPropagation();
     toggleMenu();
   };
 
-  // Detecta clics fuera del menú y lo cierra
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const menuElement = document.querySelector(".relative"); // Selector del menú
+      const menuElement = document.querySelector(".relative");
       if (menuElement && !menuElement.contains(event.target)) {
-        closeMenu(); // Cierra el menú si se hace clic fuera
+        closeMenu();
       }
     };
 
-    // Escuchar eventos de clic
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Limpiar el evento al desmontar
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
-  // Cerrar el menú cuando se navega a otra página
   useEffect(() => {
-    closeMenu(); // Cierra el menú cuando la ruta cambia
+    closeMenu();
   }, [location]);
 
   return (

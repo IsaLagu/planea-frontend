@@ -6,7 +6,7 @@ export const EventCard = ({ event, onDelete }) => {
     <div className="w-[275px] h-[350px] text-darkGrey text-sm border border-gray-200 rounded-lg shadow relative">
       <div>
         <Link to={`/events/${event.id}`}>
-          <img className="rounded-t-lg" src={event.imageUrl} alt={event.title} />
+          <div className="h-[150px]" style={{ backgroundImage: `url(${event.imageUrl})`, backgroundSize: "cover" }} />
         </Link>
         {onDelete && (
           <button type="button" onClick={onDelete}>
