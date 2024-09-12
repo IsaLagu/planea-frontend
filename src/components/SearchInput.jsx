@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { Spinner } from "./Spinner";
 
-export const SearchInput = ({ cities, citiesLoading, citiesError }) => {
+export const SearchInput = ({ cities, citiesLoading, citiesError, onSearch }) => {
+  const [selectedCity, setSelectedCity] = useState("");
+  const [eventTitle, setEventTitle] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    onSearch(selectedCity, eventTitle);
+  };
+
   return (
-    <form className="max-w-lg mx-auto mb-10">
+    <form className="max-w-lg mx-auto mb-10" onSubmit={handleSearch}>
       <div className="flex">
         <label htmlFor="search-dropdown" className="mb-2 text-sm font-medium text-darkGrey sr-only">
           Your Email
@@ -20,7 +27,7 @@ export const SearchInput = ({ cities, citiesLoading, citiesError }) => {
           className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-white bg-primary border-gray-300 rounded-s-lg hover:bg-lightViolet focus:ring-4 focus:outline-none focus:ring-primary"
           type="button"
         >
-          Ciudades de Tenerife{" "}
+          {selectedCity ? selectedCity.name : "Ciudades de Tenerife"}
           <svg
             className="w-2.5 h-2.5 ms-2.5"
             aria-hidden="true"
@@ -39,21 +46,21 @@ export const SearchInput = ({ cities, citiesLoading, citiesError }) => {
             <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
               {citiesLoading && <Spinner />}
               {citiesError && <p>Error: {citiesError.message}</p>}
-              {
-                !citiesLoading && !citiesError && cities && cities.length > 0
-                  ? cities.map((city) => (
-                      <li key={city.id}>
-                        <button
-                          className="hover:bg-lightViolet checked:bg-primary active:bg-primary p-1 mb-0.5 rounded-md hover:text-white checked:text-white w-full text-left"
-                          value={city.id}
-                        >
-                          {city.name}
-                        </button>
-                      </li>
-                    ))
-                  : !citiesLoading &&
-                    !citiesError && <p className="text-2xl text-darkGrey font-medium">No hay ciudades disponibles</p> // Mensaje si no hay ciudades
-              }
+              {!citiesLoading && !citiesError && cities && cities.length > 0
+                ? cities.map((city) => (
+                    <li key={city.id}>
+                      <button
+                        className="p-1 hover:bg-primary hover:text-white w-full text-left"
+                        onClick={() => {
+                          setSelectedCity(city);
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        {city.name}
+                      </button>
+                    </li>
+                  ))
+                : !citiesLoading && !citiesError && <p>No hay ciudades disponibles</p>}
             </ul>
           </div>
         )}
@@ -62,8 +69,9 @@ export const SearchInput = ({ cities, citiesLoading, citiesError }) => {
             type="search"
             id="search-dropdown"
             className="block p-2.5 w-full z-20 text-sm text-gdarkGrey bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:outline-none focus:border-2 focus:border-primary"
-            placeholder="Busca eventos"
-            required
+            placeholder="Busca un evento"
+            value={eventTitle}
+            onChange={(e) => setEventTitle(e.target.value)}
           />
           <button
             type="submit"
