@@ -1,24 +1,19 @@
 import { EventCard } from "../components/EventCard";
+import { Spinner } from "../components/Spinner";
 import useGet from "../hooks/useGet";
 
 export const Home = () => {
   const { data: events, loading, error } = useGet(`/api/events`);
-
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }
 
   return (
     <div className="max-w-screen-xl flex flex-wrap mx-auto justify-center gap-x-8 gap-y-10">
       {events?.length ? (
         events.map((event) => <EventCard key={event.id} event={event} />)
       ) : (
-        <p>No hay eventos disponibles</p>
+        <>{!loading && <p className="text-2xl text-darkGrey font-medium">No hay eventos disponibles</p>}</>
       )}
+      {loading && <Spinner />}
+      {error && <p>Error: {error.message}</p>}
     </div>
   );
 };
