@@ -2,6 +2,15 @@
 
 Desarrollo de una aplicación web diseñada para promover eventos y actividades culturales y educativas dirigidas a niños, familias y jóvenes. La aplicación permitirá a los usuarios explorar, inscribirse y recibir información sobre eventos en su área.
 
+## Tabla de Contenido
+
+1. [Objetivos del Proyecto](#objetivos-del-proyecto)
+2. [Screenshots](#screenshots)
+3. [Tecnologías Utilizadas](#tecnologías-utilizadas)
+4. [Funcionalidades Principales](#funcionalidades-principales)
+5. [Roadmap](#roadmap-del-proyecto)
+6. [Autor](#autor)
+
 ## Objetivos del Proyecto
 
 - **Promoción de la Cultura y Educación**: Fomentar la participación en eventos culturales y educativos dentro de la comunidad.
@@ -11,90 +20,31 @@ Desarrollo de una aplicación web diseñada para promover eventos y actividades 
 
 ## Screenshots
 
-![App Screenshot]()
+- **Home**:
+  ![Screenshot 2024-09-13 at 09 17 09](https://github.com/user-attachments/assets/626c0498-0d1b-4c7e-8557-579eced05e50)
 
-## Arquitectura y Tecnologías
+- **Mis Eventos**:
+  ![Screenshot 2024-09-13 at 09 31 57](https://github.com/user-attachments/assets/4d4ccde3-11ef-4e6b-b1f9-02ba5d82d887)
 
-### Front-End:
+### Tecnologías Utilizadas
 
-- **React.js**: Para crear una interfaz de usuario dinámica y responsiva.
-- **React Router**: Facilita la navegación interna dentro de la aplicación.
-
-### Back-End:
-
-- **Spring Boot**: Framework utilizado para desarrollar la API REST que gestiona las operaciones CRUD de eventos.
-- **Spring Security**: Proporciona autenticación y autorización para la gestión segura de usuarios.
-- **PostgreSQL**: Base de datos relacional para almacenar datos de eventos y usuarios.
+- **React.js**: Para crear la interfaz de usuario dinámica.
+- **React Router**: Para la navegación dentro de la aplicación.
+- **Fetch**: Para interactuar con la API REST del backend.
+- **Tailwind**: Para el diseño y estilo responsivo.
 
 ## Funcionalidades Principales
 
-### 1. Gestión Completa de Eventos (CRUD)
-
-- **Crear Eventos**: Los administradores pueden crear eventos nuevos con información detallada.
-- **Leer/Ver Eventos**: Los usuarios pueden explorar y ver eventos, con detalles completos de cada uno.
-- **Actualizar Eventos**: Los administradores pueden editar la información de eventos ya existentes.
-- **Eliminar Eventos**: Los administradores pueden eliminar eventos cuando sea necesario.
-
-### 2. Autenticación y Roles de Usuario
-
-- **Registro y Autenticación**: Los usuarios deben registrarse para acceder a la plataforma y a ciertas funciones.
-- **Roles**:
-  - **Usuario Final**: Puede ver e inscribirse en eventos.
-  - **Administrador**: Gestiona los eventos y la inscripción.
-  - **Super Admin**: Control total del sistema, con gestión avanzada de usuarios y permisos.
-
-### 3. Inscripción a Eventos
-
-- **Inscripción de Usuarios**: Los usuarios pueden inscribirse a los eventos disponibles.
-- **Confirmaciones Automáticas**: Notificaciones por correo electrónico para confirmar y recordar inscripciones.
-
-### 4. Filtros de Búsqueda Avanzados
-
-- **Filtrar por Categoría**: Búsqueda de eventos según tipo (cultural, educativo, familiar, etc.).
-- **Filtrar por Fecha**: Los usuarios pueden buscar eventos según la fecha.
-
-### 5. Interfaz de Usuario Amigable e Intuitiva
-
-- **Navegación Fluida**: Uso de React Router para navegación rápida y sin problemas.
-- **Interfaz Responsiva**: Compatible con dispositivos móviles y de escritorio.
-
-### 6. Gestión de Usuarios y Seguridad
-
-- **Autenticación Segura**: Spring Security para asegurar las sesiones de los usuarios.
-- **Roles y Permisos**: Gestión de roles, donde el Super Admin puede asignar permisos especiales.
-
-### 7. Manejo de Errores y Validaciones
-
-- **Validaciones en Formularios**: Validaciones tanto en front-end como en back-end.
-- **Manejo de Errores**: Mensajes de error claros y amigables en caso de fallos.
-
-### 8. Escalabilidad y Almacenamiento de Datos
-
-- **PostgreSQL**: Base de datos escalable para almacenar eventos, usuarios y sus interacciones.
-- **Arquitectura Escalable**: Capacidad para manejar un aumento en el número de usuarios y eventos.
-
-### 9. Notificaciones y Comunicaciones
-
-- **Recordatorios de Eventos**: Envío de notificaciones para recordar la participación en eventos.
-- **Notificaciones Automáticas**: Los usuarios serán informados de cambios o cancelaciones en los eventos.
-
-### 10. Panel de Control para Administradores
-
-- **Dashboard**: Estadísticas de participación, eventos populares, y más.
-- **Gestión de Participantes**: Vista de usuarios inscritos y control de la capacidad de eventos.
+- **Exploración de Eventos**: Los usuarios pueden ver los eventos disponibles, con detalles y opciones de filtrado.
+- **Inscripción a Eventos**: Los usuarios pueden inscribirse en eventos de manera fácil y rápida.
+- **Gestión de Eventos**: Los administradores pueden crear, editar y eliminar eventos.
+- **Interfaz Responsiva**: Optimizada para dispositivos móviles y de escritorio.
 
 ## Roadmap del Proyecto
 
-- [ ] **Testing en Front-End y Back-End**: Implementación de pruebas para garantizar la calidad del software.
+- [ ] **Testing en Front-End**: Implementación de pruebas de unidad y de integración.
 - [ ] **Filtro por Categoría y Fecha**: Implementación de opciones de filtrado para facilitar la búsqueda de eventos.
 - [ ] **Funcionalidad de Actualización en Front-End**: Agregar la opción de actualizar eventos desde el front-end.
-- [ ] **Manejo de Errores y Validaciones en Back-End**: Validaciones robustas y manejo de errores en la API.
-- [ ] **Super Admin en Back-End**: Implementación del rol de Super Admin con permisos avanzados.
-- [ ] **Inscripción de Usuarios**: Permitir a los usuarios registrarse en eventos de forma sencilla.
-- [ ] **Confirmaciones Automáticas**: Enviar correos de confirmación y recordatorios automáticos a los inscritos en eventos.
-- [ ] **Interfaz Responsiva**: Asegurar que la interfaz sea completamente compatible con dispositivos móviles y desktop.
-- [ ] **Panel de Control para Administradores**: Implementar un dashboard con estadísticas de participación, eventos populares y gestión de inscritos.
-- [ ] **Notificaciones Automáticas**: Informar a los usuarios sobre cambios o cancelaciones de eventos a través de la plataforma.
 
 ## Autor
 
